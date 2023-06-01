@@ -89,8 +89,8 @@ export const getDates = async (req, res) => {
 
         for (let i = 0; i < 9; i++) {
           hours.push({
-            isOrdered: false,
-            hour: `${9 + i}:00`,
+            tablesOrderes: [],
+            time: `${9 + i}:00`,
           });
         }
 
@@ -106,6 +106,22 @@ export const getDates = async (req, res) => {
     res.json(result.reverse());
   } catch (e) {
     res.json(e);
+  }
+};
+
+export const orderTable = async (req, res) => {
+  try {
+    const { day, hour, tableNumber } = req.body;
+    
+    const result = await dayModel.findOneAndUpdate(
+      { day: day, "hours.time": hour },
+      { $push: { "hours.$.tablesOrdered": tableNumber } },
+      { new: true }
+    );
+
+    res.json(result);
+  } catch (error) {
+    res.json(error);
   }
 };
 

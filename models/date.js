@@ -2,12 +2,7 @@ import mongoose from "mongoose";
 
 const daySchema = mongoose.Schema({
   day: String,
-  hours: [
-    {
-      isOrdered: { type: Boolean, default: false },
-      hour: String,
-    },
-  ],
+  hours: [{ time: String, tablesOrdered: [String] }],
 });
 
 const dateSchema = mongoose.Schema({
